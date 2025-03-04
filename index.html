@@ -40,10 +40,31 @@
             );
         }
         function KmToM(){
-            return <h3>KM 2 M</h3>;
+            const [amount, setAmount] = React.useState(0);
+            const [invert, setInvert] = React.useState(0);
+            const onChange = (event) => {
+                setAmount(event.target.value);
+            }
+            const invertMode = () => {
+                setAmount(0);
+                setInvert((current) => !current);
+            }
+            return(
+                <div>
+                    <div>
+                        <label htmlHor="km">km</label>
+                        <input value={invert ? amount*1.609 : amount} id="km" placeholder="km" type="number" onChange={onChange} disabled={invert}/>
+                    </div>
+                    <div>
+                        <label htmlHor="miles">miles</label>
+                        <input value={invert ? amount : amount/1.609} id="miles" placeholder="miles" type="number" onChange={onChange} disabled={!invert}/>
+                    </div>
+                    <button onClick={invertMode}>invert Mode</button>
+                </div>
+            );
         }
         function App(){
-            const [mode, setMode] = React.useState("0");
+            const [mode, setMode] = React.useState("1");
             const onSelect = (event) => {
                 setMode(event.target.value);
             }
@@ -54,6 +75,7 @@
                         <option value="0">Minutes & Hours</option>
                         <option value="1">Km & Miles</option>    
                     </select>
+                    <hr/>
                     {mode == "0" ? <MinutesToHours /> : <KmToM />}
                 </div>
             );
