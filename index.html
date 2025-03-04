@@ -10,19 +10,32 @@
         const root = document.getElementById("root");
         
         function App(){
-            const [minute, setMinute] = React.useState();
+            const [minute, setMinute] = React.useState(0);
+            const [flip, setFlip] = React.useState(true);
             const onChange = (event) => {
                 setMinute(event.target.value);
             }
+            const onClick = (event) => {
+                setMinute(0);
+            }
+            const onFlip = () => setFlip((current) => !current);
+
             return (
                 <div>
                     <h1 className="h1">Super Converter</h1>
-                    <label htmlFor="Minute">Minute</label>
-                    <input value={minute} id="Minute" placeholder="Minute" type="number" onChange={onChange}/>
-                    <label htmlFor="Hour">Hour</label>
-                    <input id="Minute" placeholder="Hour" type="number"/>
+                    <div>
+                        <label htmlFor="Minute">Minute</label>
+                        <input value={flip ? minute : minute*60} id="Minute" placeholder="Minute" type="number" onChange={onChange} disabled={!flip}/>
+                    </div>
+                    <div>
+                        <label htmlFor="Hour">Hour</label>
+                        <input value={flip ?  Math.round(minute/60) : minute} id="Minute" placeholder="Hour" type="number" onChange={onChange} disabled={flip}/>
+                    </div>
+                    <button onClick={onClick}>Reset Button</button> 
+                    <button onClick={onFlip}> Flip </button>
                 </div>
-            )
+                   
+            );
         }
 
         ReactDOM.render(<App />, root);    
